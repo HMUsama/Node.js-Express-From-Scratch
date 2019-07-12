@@ -1,0 +1,14 @@
+{
+  "name": "nodejsscratch",
+  "version": "1.0.0",
+  "description": "simple knowledgebase app ",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "author": "HM Usama",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
