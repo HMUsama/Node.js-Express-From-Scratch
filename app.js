@@ -1,5 +1,22 @@
 const express = require('express');
 const path = require('path');
+const mongoose =require("mongoose");
+const bodyParser = require('body-parser')
+
+mongoose.connect('mongodb://localhost/nodekb');
+let db = mongoose.connection;
+
+// Check for DB Connection
+db.on('open',function(){
+    console.log("Check for DB Connection Mongo DB")
+})
+// Check for DB error
+db.on('error',function(error){
+    console.log("Check for DB error",error)
+})
+
+// Bring for models
+let Article = require('./models/articles')
 
 // init app
 const app = express();
@@ -8,39 +25,48 @@ const app = express();
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','pug');
 
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
 
 // Home Route
 app.get('/',function(req,res){
-    let articles = [
-        {
-            id:1,
-            title:'ArticalsOne',
-            auther:'Usama Raza',
-            body:'this is articals One'
-        },
-        {
-            id:2,
-            title:'Articals Two',
-            auther:'Usama Ansari',
-            body:'this is articals Two'
-        },
-        {
-            id:3,
-            title:'Articals Three',
-            auther:'HM Raza',
-            body:'this is articals Three'
+    Article.find({},function(error,articles){
+        if(error){
+            console.log('Data is not Gate *Error*',error)
+        }else{
+            res.render('index',{
+                title:'Hello usama',
+                articles : articles
+            });
         }
-    ];
-    res.render('index',{
-        title:'Hello usama',
-        articles : articles
     });
 })
 // Add Route
-app.get('/articals/add',function(req,res){
+app.get('/articles/add',function(req,res){
     res.render('add_Articals',{
-        title:'Add Articals'
+        title:'Add Articles'
     })
+})
+
+// Add submit POST Rout
+app.post('/articles/add',function(req,res){
+    let articles = new Article();
+    articles.title = req.body.title;
+    articles.title = req.body.auther;
+    articles.title = req.body.body;
+    console.log(req.body.title);
+    articles.save(function(error){
+        if(error){
+            console.log("--------->",error);
+            return
+        }else{
+            res.redirect('/');
+        }
+    })
+    // return
 })
 
 
