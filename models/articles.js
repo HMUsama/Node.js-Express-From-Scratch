@@ -9,7 +9,7 @@ const articleSchema = mongoose.Schema({
         type:String,
         require:true
     },
-    auther:{
+    author:{
         type:String,
         require:true
     },
