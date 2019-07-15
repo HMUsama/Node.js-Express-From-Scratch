@@ -1,16 +1,17 @@
 extends layout
 
 block content
- h1 Article: #{article.title}
+ h1  #{article.title}
  h5= article.auther
- h5 Body: #{article.body}
+ h5  #{article.body}
  hr
- a.btn.btn-default(href='/article/edit/'+article._id) Edit
+ br
  br
  br
  a.btn.btn-dark(href="/") back page 
-
+ a.btn.btn-primary(href='/article/edit/'+article._id) Edit
  a.btn.btn-danger.delete-article(href="#",data-id=article._id) delete
+ hr
 
 
 
